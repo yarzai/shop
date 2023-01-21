@@ -17,3 +17,7 @@ def welcome(request):
 
 def test():
     print("done")
+
+
+def another_func():
+    pass
