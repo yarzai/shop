@@ -16,4 +16,4 @@ def welcome(request):
 
 
 def test():
-    pass
+    print("done")
