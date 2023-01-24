@@ -16,9 +16,5 @@ def welcome(request):
     return render(request, 'products/welcome.html', {"result": val, "test": 12})
 
 
-def test():
-    print("done")
-
-
-def another_func():
-    pass
+def create_product(request):
+    return render(request, "products/create_product.html")
