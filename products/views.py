@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
+from products.models import Product
 
 # Create your views here.
 
@@ -17,4 +18,18 @@ def welcome(request):
 
 
 def create_product(request):
-    return render(request, "products/create_product.html")
+    if request.method == 'GET':
+        return render(request, "products/create_product.html")
+    else:
+        title = request.POST.get("title")
+        price = request.POST.get("price")
+        is_avaliable = request.POST.get("is_avaliable")
+
+        # if is_avaliable:
+        #     is_avaliable = True
+        # else:
+        #     is_avaliable = False
+
+        product = Product.objects.create(title=title, price=price,
+                                         is_avaliable=bool(is_avaliable))
+        return render(request, "products/create_product.html", {"id": product.id})
