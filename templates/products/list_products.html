@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block content %}
+<div style="display: flex; flex-wrap: wrap; justify-content: center">
+  {% for product in products %}
+  <div class="card" style="min-width: 250px; margin: 1rem">
+    <img src="..." class="card-img-top" alt="..." />
+    <div class="card-body">
+      <h5 class="card-title">{{product.title}}</h5>
+      <p class="card-text">Price: {{product.price}}$</p>
+      <p class="card-text">Is Avaliable: {{product.is_avaliable}}</p>
+
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

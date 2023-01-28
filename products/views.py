@@ -33,3 +33,9 @@ def create_product(request):
         product = Product.objects.create(title=title, price=price,
                                          is_avaliable=bool(is_avaliable))
         return render(request, "products/create_product.html", {"id": product.id})
+
+
+def list_products(request):
+    products = Product.objects.all()
+    print(products)
+    return render(request, "products/list_products.html", {"products": products})
