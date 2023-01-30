@@ -6,9 +6,14 @@
     <div class="card-body">
       <h5 class="card-title">{{product.title}}</h5>
       <p class="card-text">Price: {{product.price}}$</p>
-      <p class="card-text">Is Avaliable: {{product.is_avaliable}}</p>
+      <p class="card-text">Is Available: {{product.is_available}}</p>
 
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+      <a href="/products/detail/{{product.id}}" class="btn btn-primary"
+        >View more</a
+      >
+      <a href="/products/delete/{{product.id}}" class="btn btn-danger"
+        >Delete</a
+      >
     </div>
   </div>
   {% endfor %}

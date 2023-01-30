@@ -4,10 +4,11 @@ from django.db import models
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=150, null=True, blank=True)
+    title = models.CharField(max_length=150)
     price = models.IntegerField()
     # binray = models.BinaryField(max_length=20, null=True, editable=True)
-    is_avaliable = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
+    description = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from products.models import Product
 
@@ -39,3 +39,15 @@ def list_products(request):
     products = Product.objects.all()
     print(products)
     return render(request, "products/list_products.html", {"products": products})
+
+
+def product_detail(request, prod_id):
+    product = Product.objects.get(id=prod_id)
+    return render(request, 'products/product-detail.html', {"product": product})
+
+
+def product_delete(request, prod_id):
+    product = Product.objects.get(id=prod_id)
+    product.delete()
+
+    return redirect("/products")
