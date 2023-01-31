@@ -5,7 +5,8 @@ from products.models import Product, Category
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'price', "is_available", 'created']
+    list_display = ['id', 'title', 'price',
+                    "is_available", 'created', 'updated']
     list_filter = ["title", 'is_available', "created"]
     search_fields = ["title", 'price']
     date_hierarchy = "created"
