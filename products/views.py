@@ -1,5 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.db.models import Q
+
 from products.models import Product
 
 # Create your views here.
@@ -16,7 +19,7 @@ def welcome(request):
 
     # return render(request, 'products/welcome.html', {"result": val, "test": 12})
 
-    return redirect("/products")
+    return redirect(reverse_lazy("products:list"))
 
 
 def create_product(request):
@@ -38,8 +41,12 @@ def create_product(request):
 
 
 def list_products(request):
-    products = Product.objects.all()
-    print(products)
+    # products = Product.objects.all()[2:5]
+    products = Product.objects.filter(Q(is_available=True) | Q(price__lt=500))
+    # products = Product.objects.filter(title__icontains='p')
+    # products = Product.objects.filter(title__istartswith='p')
+    # products = Product.objects.all().order_by("-price")
+    print(products.query)
     return render(request, "products/list_products.html", {"products": products})
 
 
@@ -52,7 +59,7 @@ def product_delete(request, prod_id):
     product = Product.objects.get(id=prod_id)
     product.delete()
 
-    return redirect("/products")
+    return redirect(reverse_lazy("products:list"))
 
 
 def product_update(request, prod_id):
@@ -73,4 +80,4 @@ def product_update(request, prod_id):
 
         product.save()
 
-        return redirect(f"/products/update/{product.id}")
+        return redirect(reverse_lazy("products:update", args=[product.id]))
