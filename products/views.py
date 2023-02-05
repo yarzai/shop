@@ -28,7 +28,7 @@ def create_product(request):
     else:
         title = request.POST.get("title")
         price = request.POST.get("price")
-        is_avaliable = request.POST.get("is_avaliable")
+        is_available = request.POST.get("is_available")
 
         # if is_avaliable:
         #     is_avaliable = True
@@ -36,7 +36,7 @@ def create_product(request):
         #     is_avaliable = False
 
         product = Product.objects.create(title=title, price=price,
-                                         is_avaliable=bool(is_avaliable))
+                                         is_available=bool(is_available))
         return render(request, "products/create_product.html", {"id": product.id})
 
 
