@@ -28,6 +28,8 @@ class Product(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        if not self.id:
+            self.price = self.price + self.price * 0.02
         print("Save Called")
         return super().save(*args, **kwargs)
 
