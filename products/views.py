@@ -52,6 +52,7 @@ def list_products(request):
 
 def product_detail(request, prod_id):
     product = Product.objects.get(id=prod_id)
+    print(product.tax)
     return render(request, 'products/product-detail.html', {"product": product})
 
 
@@ -67,7 +68,6 @@ def product_update(request, prod_id):
     if request.method == 'GET':
         return render(request, 'products/product_update.html', {"product": product})
     else:
-        print(request.POST)
         title = request.POST.get("title")
         price = request.POST.get("price")
         is_avaliable = request.POST.get("is_avaliable")
