@@ -3,10 +3,19 @@ from django.forms import ValidationError
 from django.db.models.signals import pre_save, post_save
 from django.utils.text import slugify
 from utility.slugHelper import unique_slug_generator
+import os
+from shop import settings
+
+
+class ProductModalManger(models.Manager):
+    # def all(self):
+    #     return self.filter(is_available=True)
+
+    def is_available(self):
+        return self.filter(is_available=True)
 
 
 # Create your models here.
-
 CATEGORIES = (
     ("ph", 'Phone'),
     ("cm", 'Camera')
@@ -29,8 +38,12 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True)
     description = models.TextField(null=True, blank=True)
     category = models.CharField(max_length=50, choices=CATEGORIES, null=True)
+    image = models.ImageField(upload_to="products", null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    db = ProductModalManger()
+    objects = ProductModalManger()
 
     @property
     def tax(self):
@@ -38,6 +51,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+    def delete(self, *args, **kwargs):
+        print(os.path.join(str(settings.BASE_DIR), self.image.url))
+        return super().delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         if not self.id:

@@ -41,8 +41,8 @@ def create_product(request):
 
 
 def list_products(request):
-    # products = Product.objects.all()[2:5]
-    products = Product.objects.filter(Q(is_available=True) | Q(price__lt=500))
+    products = Product.db.is_available()
+    # products = Product.objects.filter(Q(is_available=True) | Q(price__lt=500))
     # products = Product.objects.filter(title__icontains='p')
     # products = Product.objects.filter(title__istartswith='p')
     # products = Product.objects.all().order_by("-price")
