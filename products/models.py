@@ -1,3 +1,4 @@
+import random
 from django.db import models
 from django.forms import ValidationError
 from django.db.models.signals import pre_save, post_save
@@ -5,6 +6,16 @@ from django.utils.text import slugify
 from utility.slugHelper import unique_slug_generator
 import os
 from shop import settings
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = "category"
+
+    def __str__(self):
+        return self.name
 
 
 class ProductModalManger(models.Manager):
@@ -27,6 +38,17 @@ def price_gt_500(value):
         raise ValidationError("Please enter above 500.")
 
 
+def file(instance, filename):
+    print(filename)
+    ext = filename.split(".")[1]
+    return f"products/{random.randint(1,99999)}.{ext}"
+
+
+def image_validator(image):
+    if (image.size > 20000):
+        raise ValidationError("Image must be less than 20KB.")
+
+
 class Product(models.Model):
     title = models.CharField(max_length=150, unique=True, error_messages={
         "unique": "No Duplicates.",
@@ -37,8 +59,10 @@ class Product(models.Model):
     # binray = models.BinaryField(max_length=20, null=True, editable=True)
     is_available = models.BooleanField(default=True)
     description = models.TextField(null=True, blank=True)
-    category = models.CharField(max_length=50, choices=CATEGORIES, null=True)
-    image = models.ImageField(upload_to="products", null=True, blank=True)
+    category = models.ManyToManyField(
+        Category, null=True)
+    image = models.ImageField(
+        upload_to=file, null=True, blank=True, validators=[image_validator])
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -53,7 +77,9 @@ class Product(models.Model):
         return self.title
 
     def delete(self, *args, **kwargs):
-        print(os.path.join(str(settings.BASE_DIR), self.image.url))
+        # if os.path.exists(self.image.path):
+        #     os.remove(self.image.path)
+        self.image.delete()
         return super().delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
@@ -83,10 +109,3 @@ def post_save_product_signal(sender, instance, created, *arg, **kwargs):
 
 
 post_save.connect(post_save_product_signal, sender=Product)
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-
-    class Meta:
-        db_table = "category"
