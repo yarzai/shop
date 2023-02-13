@@ -45,8 +45,9 @@ def file(instance, filename):
 
 
 def image_validator(image):
-    if (image.size > 20000):
-        raise ValidationError("Image must be less than 20KB.")
+    # if (image.size > 20000):
+    #     raise ValidationError("Image must be less than 20KB.")
+    pass
 
 
 class Product(models.Model):
@@ -83,6 +84,7 @@ class Product(models.Model):
         return super().delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
+        self.price = int(self.price)
         if not self.id:
             self.price = self.price + self.price * 0.02
         print("Save Called")

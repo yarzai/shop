@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.views.generic.base import View, TemplateView
 
 from products.models import Product
 
@@ -40,6 +41,19 @@ def create_product(request):
         return render(request, "products/create_product.html", {"id": product.id})
 
 
+class CreatProductView(View):
+    def get(self, request):
+        return render(request, "products/create_product.html")
+
+    def post(self, request):
+        title = request.POST.get("title")
+        price = request.POST.get("price")
+        is_available = request.POST.get("is_available")
+        product = Product.objects.create(title=title, price=price,
+                                         is_available=bool(is_available))
+        return render(request, "products/create_product.html", {"id": product.id})
+
+
 def list_products(request):
     products = Product.db.is_available()
     # products = Product.objects.filter(Q(is_available=True) | Q(price__lt=500))
@@ -48,6 +62,12 @@ def list_products(request):
     # products = Product.objects.all().order_by("-price")
     print(products.query)
     return render(request, "products/list_products.html", {"products": products})
+
+
+class ListProductView(View):
+    def get(self, request, *args, **kwargs):
+        products = Product.db.is_available()
+        return render(request, "products/list_products.html", {"products": products})
 
 
 def product_detail(request, prod_id):
@@ -81,3 +101,12 @@ def product_update(request, prod_id):
         product.save()
 
         return redirect(reverse_lazy("products:update", args=[product.id]))
+
+
+class AboutView(TemplateView):
+    template_name = "about.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "From About View Get Content"
+        return context
