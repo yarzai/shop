@@ -4,15 +4,16 @@ from django.urls import path, include
 from products.views import welcome
 from django.conf import settings
 from django.conf.urls.static import static
-# from products.views import AboutView
+from products.views import AboutView
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", welcome),
     path("products/", include("products.urls")),
-    path("about/", TemplateView.as_view(template_name="about.html",
-         extra_context={'title': "from path"}))
+    # path("about/", TemplateView.as_view(template_name="about.html",
+    #      extra_context={'title': "from path"}))
+    path("about/", AboutView.as_view())
 ]
 
 urlpatterns = urlpatterns + \

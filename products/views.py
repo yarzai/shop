@@ -1,3 +1,4 @@
+from products.forms import TestForm
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -103,10 +104,15 @@ def product_update(request, prod_id):
         return redirect(reverse_lazy("products:update", args=[product.id]))
 
 
-class AboutView(TemplateView):
-    template_name = "about.html"
+class AboutView(View):
+    def get(self, request):
+        form = TestForm(initial={'name': 'Test', "age": 34})
+        return render(request, 'about.html', {"form": form})
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = "From About View Get Content"
-        return context
+    def post(self, request):
+        form = TestForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+        else:
+            print(form.errors)
+            return render(request, 'about.html', {"form": form})
