@@ -1,3 +1,4 @@
+from products.models import Product
 from django import forms
 from django.forms import ValidationError
 
@@ -11,3 +12,11 @@ class TestForm(forms.Form):
     name = forms.CharField(help_text="Name should start with A.", label="Name 1", max_length=5,
                            validators=[test_vali])
     age = forms.IntegerField()
+
+
+class ProductModalForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        # fields = ['title', 'price', "category"]
+        # fields = '__all__'
+        exclude = ['slug']

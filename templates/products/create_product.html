@@ -1,31 +1,13 @@
 {% extends 'base.html' %} {% block content %}
 
 <div style="display: flex; justify-content: center">
-  <form action="{% url 'products:create' %}" method="post" style="width: 300px">
-    {% csrf_token %}
-    <span>Create - {{id}} ID</span>
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Title</label>
-      <input
-        type="text"
-        name="title"
-        class="form-control"
-        id="exampleInputEmail1"
-      />
-    </div>
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Price</label>
-      <input type="number" class="form-control" name="price" />
-    </div>
-    <div class="mb-3 form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        name="is_available"
-        id="exampleCheck1"
-      />
-      <label class="form-check-label" for="exampleCheck1">Is Avaliable</label>
-    </div>
+  <form
+    action="{% url 'products:create' %}"
+    method="post"
+    style="width: 300px"
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %} {{form.as_div}}
     <button type="submit" class="btn btn-primary">Create Product</button>
   </form>
 </div>

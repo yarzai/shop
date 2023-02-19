@@ -1,9 +1,11 @@
-from products.forms import TestForm
+from products.forms import TestForm, ProductModalForm
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.views.generic.base import View, TemplateView
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView
 
 from products.models import Product
 
@@ -106,13 +108,30 @@ def product_update(request, prod_id):
 
 class AboutView(View):
     def get(self, request):
-        form = TestForm(initial={'name': 'Test', "age": 34})
+        # form = TestForm(initial={'name': 'Test', "age": 34})
+        form = ProductModalForm()
         return render(request, 'about.html', {"form": form})
 
     def post(self, request):
-        form = TestForm(request.POST)
+        # form = TestForm(request.POST)
+        form = x(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data)
+            res = form.save()
+            return redirect(reverse_lazy("products:detail", args=[res.id]))
         else:
             print(form.errors)
             return render(request, 'about.html', {"form": form})
+
+
+class ProductListView(ListView):
+    model = Product
+    queryset = Product.objects.all()
+    template_name = 'products/list_products.html'
+    context_object_name = 'products'
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    queryset = Product.objects.all()
+    fields = "__all__"
+    template_name = 'products/create_product.html'

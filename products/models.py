@@ -6,6 +6,7 @@ from django.utils.text import slugify
 from utility.slugHelper import unique_slug_generator
 import os
 from shop import settings
+from django.urls import reverse_lazy
 
 
 class Category(models.Model):
@@ -76,6 +77,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse_lazy("products:detail", args=[self.id])
 
     def delete(self, *args, **kwargs):
         # if os.path.exists(self.image.path):
