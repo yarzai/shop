@@ -1,6 +1,8 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
+{%for ct in categories %}
+<h1>Category - {{ct}}</h1>
 <div style="display: flex; flex-wrap: wrap; justify-content: center">
-  {% for product in products %}
+  {% for product in ct.products.all %}
   <div class="card" style="min-width: 250px; margin: 1rem">
     {% if product.image %}
     <img
@@ -22,10 +24,8 @@
       <p class="card-text">Price: {{product.price}}$</p>
       <p class="card-text">Is Available: {{product.is_available}}</p>
 
-      <p class="card-text">Category: {{product.category.all.0.id}}</p>
-      {% if product.category.all.1 %}
-      <p class="card-text">Category: {{product.category.all.1.id}}</p>
-      {% endif %}
+      <p class="card-text">Category: {{product.category}}</p>
+     
       <a href="{% url 'products:detail' product.id %}" class="btn btn-primary"
         >View more</a
       >
@@ -39,5 +39,6 @@
   </div>
   {% endfor %}
 </div>
+  {% endfor %}
 
 {% endblock %}

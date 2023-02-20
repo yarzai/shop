@@ -1,10 +1,10 @@
 
 from django.contrib import admin
 from django.urls import path, include
-from products.views import welcome
+from products.views.views_func import welcome
 from django.conf import settings
 from django.conf.urls.static import static
-from products.views import AboutView
+from products.views.views_class import AboutView
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
@@ -13,7 +13,7 @@ urlpatterns = [
     path("products/", include("products.urls")),
     # path("about/", TemplateView.as_view(template_name="about.html",
     #      extra_context={'title': "from path"}))
-    path("about/", AboutView.as_view())
+    path("about/<int:test>/<str:name>", AboutView.as_view())
 ]
 
 urlpatterns = urlpatterns + \

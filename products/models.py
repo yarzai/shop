@@ -61,8 +61,8 @@ class Product(models.Model):
     # binray = models.BinaryField(max_length=20, null=True, editable=True)
     is_available = models.BooleanField(default=True)
     description = models.TextField(null=True, blank=True)
-    category = models.ManyToManyField(
-        Category, null=True)
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, related_name="products")
     image = models.ImageField(
         upload_to=file, null=True, blank=True, validators=[image_validator])
     created = models.DateTimeField(auto_now_add=True)
