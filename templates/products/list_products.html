@@ -29,9 +29,14 @@
       <a href="{% url 'products:detail' product.id %}" class="btn btn-primary"
         >View more</a
       >
-      <a href="{% url 'products:delete' product.id %}" class="btn btn-danger"
+      <!-- <a href="{% url 'products:delete' product.id %}" class="btn btn-danger"
         >Delete</a
-      >
+      > -->
+      <form action="{% url 'products:delete' product.id %}" method="post">{% csrf_token %}
+        {{ form }}
+        <input type="submit" class="btn btn-danger" value="Delete">
+      </form>
+    
       <a href="{% url 'products:update' product.id %}" class="btn btn-info"
         >Update</a
       >

@@ -3,7 +3,7 @@ from django.shortcuts import render,  redirect
 from django.urls import reverse_lazy
 from django.views.generic.base import View
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 
 
@@ -67,3 +67,17 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'products/product-detail.html'
     pk_url_kwarg = 'prod_id'
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    # fields = '__all__'
+    fields = ['title', 'price']
+    pk_url_kwarg = 'prod_id'
+    template_name = 'products/product_update.html'
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    pk_url_kwarg = 'prod_id'
+    success_url = reverse_lazy("products:list")

@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.http import Http404
 
 from products.models import Product
 
@@ -31,7 +33,13 @@ def list_products(request):
 
 
 def product_detail(request, prod_id):
-    product = Product.objects.get(id=prod_id)
+    try:
+        product = Product.objects.get(id=prod_id)
+    except Product.DoesNotExist:
+        raise Http404()
+        # return render(request, '404.html', {'P_not_found': True})
+    # except Product.MultipleObjectsReturned
+    # product = get_object_or_404(Product, id=prod_id)
     print(product.tax)
     return render(request, 'products/product-detail.html', {"product": product})
 
@@ -59,5 +67,6 @@ def product_update(request, prod_id):
         product.description = desc
 
         product.save()
-
+        messages.warning(
+            request, f"Product with id {prod_id} has been updated successfuly.")
         return redirect(reverse_lazy("products:update", args=[product.id]))

@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from products.views.views_func import welcome
 from django.conf import settings
 from django.conf.urls.static import static
@@ -13,7 +13,8 @@ urlpatterns = [
     path("products/", include("products.urls")),
     # path("about/", TemplateView.as_view(template_name="about.html",
     #      extra_context={'title': "from path"}))
-    path("about/<int:test>/<str:name>", AboutView.as_view())
+    path("about/<int:test>/<str:name>", AboutView.as_view()),
+    # re_path(r"/*/", TemplateView.as_view(template_name="404.html"))
 ]
 
 urlpatterns = urlpatterns + \
