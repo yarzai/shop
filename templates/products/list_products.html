@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 {%for ct in categories %}
-<h1>Category - {{ct}}</h1>
+<h1>Category - {{ct|upper}}</h1>
 <div style="display: flex; flex-wrap: wrap; justify-content: center">
   {% for product in ct.products.all %}
   <div class="card" style="min-width: 250px; margin: 1rem">
@@ -20,11 +20,12 @@
     />
     {% endif %}
     <div class="card-body">
-      <h5 class="card-title">{{product.title}}</h5>
+      <h5 class="card-title {% cycle 'success' 'warning' 'error' %}">{{product.title}}</h5>
       <p class="card-text">Price: {{product.price}}$</p>
       <p class="card-text">Is Available: {{product.is_available}}</p>
 
       <p class="card-text">Category: {{product.category}}</p>
+      <p class="card-text">Created On: {{product.created|date:"Y-m-d"}}</p>
      
       <a href="{% url 'products:detail' product.id %}" class="btn btn-primary"
         >View more</a
@@ -42,6 +43,8 @@
       >
     </div>
   </div>
+  {% empty %}
+  <p>There is not records available.</p>
   {% endfor %}
 </div>
   {% endfor %}
