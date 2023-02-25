@@ -96,6 +96,8 @@ class Product(models.Model):
 
     class Meta:
         db_table = "product"
+        # managed = False
+        # abstract = False
 
 
 # def pre_save_product_signal(sender, instance, *arg, **kwargs):
