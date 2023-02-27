@@ -44,7 +44,7 @@ class ProductCreateView(CreateView):
 
 class ListProductView(View):
     def get(self, request, *args, **kwargs):
-        print(request.GET)
+        print(dict(request.session))
         # products = Product.db.is_available()
         categories = Category.objects.all()
         return render(request, "products/list_products.html", {"categories": categories})

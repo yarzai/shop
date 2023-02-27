@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
 
 from products.models import Product
 
@@ -24,6 +25,7 @@ def create_product(request):
         return render(request, "products/create_product.html", {"id": product.id})
 
 
+@login_required
 def list_products(request):
     # print(dir(request))
     print("P", request.GET.get("p"))

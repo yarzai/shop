@@ -1,6 +1,6 @@
 {% extends 'accounts/base.html' %}
 {% block content %}
-<h1 style="text-align: center;">Register</h1>
+<h1 style="text-align: center;">Login</h1>
 <div style="display: flex; justify-content: center; align-items: center; height: 85vh;"> 
   <form style="width: 250px; " method="post">
     {% csrf_token %}
@@ -14,36 +14,23 @@
         required
       />
     </div>
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Name</label>
-      <input
-        type="text"
-        name="name"
-        class="form-control"
-        id="exampleInputEmail1"
-        required
-      />
-    </div>
+   
     <div class="mb-3">
       <label for="exampleInputPassword1" class="form-label">Password</label>
       <input
         type="password"
         class="form-control"
-        name="pass1"
+        name="password"
         required
       />
     </div>
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
-      <input
-        type="password"
-        class="form-control"
-        name="pass2"
-        required
-      />
-    </div>
+    
     <div style="display: flex; justify-content: center;">
-      <input type="submit" value="Register" class="btn btn-primary">
+      <input type="submit" value="Login" class="btn btn-primary">
+    </div>
+
+    <div>
+      <span>Don't have account? <a href="{% url 'accounts:register' %}">register</a>
     </div>
     </form>
 </div>

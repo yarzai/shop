@@ -16,6 +16,7 @@ class AccountAdmin(UserAdmin):
             {
                 "fields": (
                     "is_active",
+                    "is_blocked",
                     "is_staff",
                     "is_superuser",
                     "groups",

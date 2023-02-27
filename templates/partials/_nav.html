@@ -48,6 +48,15 @@
             <a class="nav-link disabled">Disabled</a>
           </li>
         </ul>
+        <div>
+          {% if user.is_authenticated %}
+          <span>Welcom: {{user.email}}</span>
+          <a class="btn btn-danger" href="{% url 'accounts:logout' %}">Logout</a>
+          {% else%}
+          <a class="btn btn-primary"  href="{% url 'accounts:login' %}">Login</a>
+          <a class="btn btn-secondary" href="{% url 'accounts:register' %}">Register</a>
+          {% endif %}
+        </div>
         <form class="d-flex" role="search">
           <input
             class="form-control me-2"

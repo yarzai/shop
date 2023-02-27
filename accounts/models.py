@@ -42,12 +42,16 @@ class Account(AbstractBaseUser, PermissionsMixin):
     image = models.ImageField(upload_to="profiles", null=True, blank=True)
     remember_me = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    is_blocked = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ['name']
 
     objects = AccountManager()
+
+    def __str__(self):
+        return self.email
 
     class Meta:
         db_table = 'accounts'

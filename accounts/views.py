@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse_lazy
 
@@ -36,3 +36,36 @@ class Register(View):
         user = User.objects.create_user(email=email, name=name, password=pass1)
         messages.success(request, "Account created successfuly.")
         return redirect(reverse_lazy("products:list"))
+
+
+class Login(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect(reverse_lazy('products:list'))
+        return render(request, 'accounts/login.html')
+
+    def post(self, request):
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        user = authenticate(email=email, password=password)
+
+        if user is None:
+            messages.error(request, "Wrong Creadentials.")
+            return redirect(reverse_lazy("accounts:login"))
+
+        if user.is_blocked:
+            messages.warning(request, "Your user is blocked.")
+            return redirect(reverse_lazy("accounts:login"))
+
+        login(request, user)
+
+        messages.success(request, "You are logged in now.")
+        return redirect(reverse_lazy("products:list"))
+
+
+class Logout(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            logout(request)
+            return redirect(reverse_lazy("products:list"))

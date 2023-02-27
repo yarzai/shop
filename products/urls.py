@@ -20,7 +20,7 @@ from products.views.views_class import (
 app_name = 'products'
 
 urlpatterns = [
-    path("", ListProductView.as_view(), name="list"),
+    path("", list_products, name="list"),
     path("create/", ProductCreateView.as_view(), name="create"),
     path("detail/<int:prod_id>/",
          product_detail, name="detail"),
