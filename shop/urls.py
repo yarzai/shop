@@ -12,6 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", welcome),
     path("products/", include("products.urls")),
+    path("api/products/", include("products.urls_api")),
     path("accounts/", include("accounts.urls")),
     # path("about/", TemplateView.as_view(template_name="about.html",
     #      extra_context={'title': "from path"}))

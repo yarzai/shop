@@ -16,6 +16,7 @@ from products.views.views_class import (
     ProductUpdateView,
     ProductDeleteView
 )
+from products.views.api import products
 
 app_name = 'products'
 
@@ -26,4 +27,6 @@ urlpatterns = [
          product_detail, name="detail"),
     path("delete/<int:prod_id>", ProductDeleteView.as_view(), name="delete"),
     path("update/<int:prod_id>", product_update, name="update"),
+    path("api/", products),
+
 ]
