@@ -1,15 +1,40 @@
 from rest_framework.decorators import api_view, APIView
 from rest_framework.response import Response
-from products.serializers.test import TestSerializer
+from products.models import Product
+from rest_framework.viewsets import ModelViewSet
+from products.serializers.products_serializers import TestSerializer, ProductListSerializer
 
 
-@api_view(["GET"])
+@api_view(["GET", 'POST'])
 def products(request):
-    return Response({"message": "Welcome to Django rest framework"})
+    if request.method == 'GET':
+        products = Product.objects.all()
+        serilizer = ProductListSerializer(products, many=True)
+        print(serilizer.data)
+        return Response(serilizer.data)
+    elif request.method == "POST":
+        serilizer = ProductListSerializer(data=request.data)
+        if serilizer.is_valid():
+            res = serilizer.save()
+            return Response(ProductListSerializer(res).data)
+        else:
+            return Response(serilizer.errors)
 
 
 class Products(APIView):
-    pass
+    def get(self, request):
+        products = Product.objects.all()
+        serilizer = ProductListSerializer(products, many=True)
+        print(serilizer.data)
+        return Response(serilizer.data)
+
+    def post(self, request):
+        serilizer = ProductListSerializer(data=request.data)
+        if serilizer.is_valid():
+            res = serilizer.save()
+            return Response(ProductListSerializer(res).data)
+        else:
+            return Response(serilizer.errors)
 
 
 @api_view(["POST"])
@@ -20,3 +45,8 @@ def test(request):
         return Response(ser.validated_data)
     else:
         return Response(ser.errors)
+
+
+class ProductModalViewSet(ModelViewSet):
+    queryset = Product.objects.filter(price__gt=4000)
+    serializer_class = ProductListSerializer
