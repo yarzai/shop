@@ -28,9 +28,12 @@ def create_product(request):
 # @login_required
 def list_products(request):
     # print(dir(request))
-    print("P", request.GET.get("p"))
-    print("N", request.GET.get("n"))
-    products = Product.db.is_available()
+    search_term = request.GET.get("q")
+    if search_term:
+        products = Product.db.filter(title__icontains=search_term)
+    else:
+        products = Product.db.all()
+
     return render(request, "products/list_products.html", {"products": products})
 
 

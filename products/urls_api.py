@@ -10,6 +10,6 @@ router.register("products", ProductModalViewSet)
 app_name = 'products'
 
 urlpatterns = [
-    path("", Products.as_view()),
+    path("", products),
     path("", include(router.urls))
 ]

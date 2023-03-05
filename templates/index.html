@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="data"></div>
+    <script>
+      fetch("http://localhost:8000/api/products/products/")
+        .then((res) => res.json())
+        .then((res) => {
+          const data = document.getElementById("data");
+          let inner_dat = `<div>`;
+          const arr = Array.from(res);
+          arr.forEach((product) => {
+            inner_dat += "<tr>";
+            inner_dat += `<p>Title : ${product.title}</p>`;
+            inner_dat += "</tr>";
+          });
+          inner_dat += "</div>";
+          data.innerHTML = inner_dat;
+        });
+    </script>
+  </body>
+</html>

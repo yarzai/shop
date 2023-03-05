@@ -18,6 +18,7 @@ urlpatterns = [
     #      extra_context={'title': "from path"}))
     path("about/<int:test>/<str:name>", AboutView.as_view()),
     # re_path(r"/*/", TemplateView.as_view(template_name="404.html"))
+    path('api-auth/', include('rest_framework.urls'))
 ]
 
 urlpatterns = urlpatterns + \

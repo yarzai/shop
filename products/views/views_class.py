@@ -15,7 +15,7 @@ class AboutView(View):
         print(kwargs)
         # form = TestForm(initial={'name': 'Test', "age": 34})
         form = ProductModalForm()
-        return render(request, 'about.html', {"form": form, **kwargs})
+        return render(request, 'index.html', {"form": form, **kwargs})
 
     def post(self, request):
         # form = TestForm(request.POST)

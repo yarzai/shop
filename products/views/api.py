@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from products.models import Product
 from rest_framework.viewsets import ModelViewSet
 from products.serializers.products_serializers import TestSerializer, ProductListSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework import status
 
 
 @api_view(["GET", 'POST'])
@@ -11,7 +13,7 @@ def products(request):
         products = Product.objects.all()
         serilizer = ProductListSerializer(products, many=True)
         print(serilizer.data)
-        return Response(serilizer.data)
+        return Response(serilizer.data, status=status.HTTP_404_NOT_FOUND)
     elif request.method == "POST":
         serilizer = ProductListSerializer(data=request.data)
         if serilizer.is_valid():
@@ -50,3 +52,4 @@ def test(request):
 class ProductModalViewSet(ModelViewSet):
     queryset = Product.objects.filter(price__gt=4000)
     serializer_class = ProductListSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
